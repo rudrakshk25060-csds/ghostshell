@@ -1,0 +1,7 @@
+{
+  "service": "necropolis-cache",
+  "port": 6660,
+  "max_memory_mb": 512,
+  "eviction_policy": "least_haunted",
+  "log_level": "whisper"
+}

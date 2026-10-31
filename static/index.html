@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GhostShell — The Ghost in Your Terminal</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="crt-overlay" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <main class="terminal-container" role="region" aria-label="Haunted Terminal Console">
+    <!-- Terminal Header / Status Bar -->
+    <header class="terminal-header">
+      <div class="terminal-title">
+        <span class="ascii-skull" aria-hidden="true">☠</span>
+        <span class="brand-title">GHOSTSHELL // v1.0</span>
+        <span class="sub-tag">[GEMMA 3 4B &bull; LOCAL ONLY]</span>
+      </div>
+
+      <div class="header-controls">
+        <div class="status-indicator" id="statusPill" title="Checking Ollama Status...">
+          <span class="status-dot degraded" id="statusDot"></span>
+          <span class="status-text" id="statusText">CHECKING OLLAMA...</span>
+        </div>
+
+        <div class="personality-bar" role="radiogroup" aria-label="Personality Selector">
+          <button type="button" class="btn-persona active" data-persona="ghost" aria-pressed="true" title="Ghost Persona: Atmospheric, eerie, concise yet helpful">
+            👻 GHOST
+          </button>
+          <button type="button" class="btn-persona" data-persona="developer" aria-pressed="false" title="Developer Persona: Rigorous, technical, zero-fluff">
+            ⚙️ DEVELOPER
+          </button>
+          <button type="button" class="btn-persona" data-persona="storyteller" aria-pressed="false" title="Storyteller Persona: Gothic tech horror fiction">
+            📜 STORYTELLER
+          </button>
+        </div>
+
+        <button type="button" class="btn-action" id="btnClear" title="Clear terminal screen">
+          [CLEAR]
+        </button>
+      </div>
+    </header>
+
+    <!-- Terminal Transcript Display -->
+    <section class="terminal-screen" id="terminalScreen" tabindex="0" aria-live="polite" aria-atomic="false">
+      <!-- Boot sequence outputs here -->
+    </section>
+
+    <!-- Quick Command Suggestions Bar -->
+    <div class="quick-bar" aria-label="Quick Command Suggestions">
+      <span class="quick-label">SUGGESTED:</span>
+      <button type="button" class="quick-chip" data-cmd="explain git rebase -i">explain git rebase -i</button>
+      <button type="button" class="quick-chip" data-cmd="explain rm -rf /tmp/cache">explain rm -rf /tmp/cache</button>
+      <button type="button" class="quick-chip" data-cmd="inspect .">inspect .</button>
+      <button type="button" class="quick-chip" data-cmd="story">story</button>
+      <button type="button" class="quick-chip" data-cmd="status">status</button>
+      <button type="button" class="quick-chip" data-cmd="help">help</button>
+    </div>
+
+    <!-- Terminal Input Prompt -->
+    <form class="terminal-input-bar" id="inputForm" autocomplete="off">
+      <label for="cliInput" class="cli-prompt" id="promptLabel">ghost@machine:~$</label>
+      <div class="input-wrapper">
+        <input 
+          type="text" 
+          id="cliInput" 
+          name="command" 
+          spellcheck="false" 
+          autofocus 
+          placeholder="Speak to the ghost, ask 'explain <cmd>', 'inspect .', or 'story'..."
+          aria-label="Terminal command input"
+        />
+        <span class="terminal-cursor" aria-hidden="true"></span>
+      </div>
+      <button type="submit" class="btn-submit" id="btnSubmit" aria-label="Send Command">
+        ENTER &crarr;
+      </button>
+    </form>
+
+    <!-- Terminal Footer -->
+    <footer class="terminal-footer">
+      <div class="footer-left">
+        <span>INFERENCE: <strong id="footerModel">gemma3:4b (Ollama Local)</strong></span>
+        <span class="sep">|</span>
+        <span>PRIVACY: <strong class="badge-safe">100% AIR-GAPPED &bull; ZERO TELEMETRY</strong></span>
+      </div>
+      <div class="footer-right">
+        <span>HACKTOBERFEST 2026 // GHOST IN THE MACHINE</span>
+      </div>
+    </footer>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,556 @@
+/* ==========================================================================
+   GhostShell — Haunted Retro Phosphor Terminal Stylesheet
+   No external CDNs • 100% Offline • Accessible • Responsive
+   ========================================================================== */
+
+:root {
+  --bg-core: #060906;
+  --bg-panel: #0a110a;
+  --bg-input: #0e170e;
+  --phosphor-primary: #00ff66;
+  --phosphor-bright: #66ff99;
+  --phosphor-dim: #00993d;
+  --phosphor-glow: rgba(0, 255, 102, 0.25);
+  --phosphor-glow-strong: rgba(0, 255, 102, 0.5);
+
+  --accent-amber: #ffaa00;
+  --accent-crimson: #ff3344;
+  --accent-cyan: #00e5ff;
+  --text-muted: #557755;
+
+  --border-terminal: 1px solid #1a331a;
+  --border-focus: 1px solid var(--phosphor-primary);
+
+  --font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Monaco, Consolas, "Courier New", monospace;
+  --scanline-color: rgba(0, 0, 0, 0.28);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-core);
+  color: var(--phosphor-primary);
+  font-family: var(--font-mono);
+  font-size: 14.5px;
+  line-height: 1.55;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --------------------------------------------------------------------------
+   CRT & Scanline Atmospheric Layers
+   -------------------------------------------------------------------------- */
+.crt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at center, transparent 65%, rgba(0, 0, 0, 0.7) 100%);
+  pointer-events: none;
+  z-index: 100;
+}
+
+.scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    var(--scanline-color) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 99;
+  opacity: 0.85;
+}
+
+/* --------------------------------------------------------------------------
+   Terminal Main Container
+   -------------------------------------------------------------------------- */
+.terminal-container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 12px 16px;
+  background-color: var(--bg-panel);
+  border-left: var(--border-terminal);
+  border-right: var(--border-terminal);
+  box-shadow: 0 0 35px rgba(0, 255, 102, 0.08);
+  position: relative;
+  z-index: 10;
+}
+
+/* --------------------------------------------------------------------------
+   Terminal Header & Status
+   -------------------------------------------------------------------------- */
+.terminal-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--phosphor-dim);
+  text-shadow: 0 0 6px var(--phosphor-glow);
+}
+
+.terminal-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ascii-skull {
+  font-size: 1.25rem;
+  color: var(--phosphor-bright);
+}
+
+.brand-title {
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  font-size: 1.05rem;
+}
+
+.sub-tag {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.5px;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--phosphor-dim);
+  border-radius: 3px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-dot.ready {
+  background-color: var(--phosphor-primary);
+  box-shadow: 0 0 8px var(--phosphor-primary);
+}
+
+.status-dot.degraded {
+  background-color: var(--accent-amber);
+  box-shadow: 0 0 8px var(--accent-amber);
+}
+
+.status-dot.offline {
+  background-color: var(--accent-crimson);
+  box-shadow: 0 0 8px var(--accent-crimson);
+}
+
+.personality-bar {
+  display: inline-flex;
+  gap: 4px;
+  background-color: #040804;
+  padding: 2px;
+  border: 1px solid var(--phosphor-dim);
+  border-radius: 4px;
+}
+
+.btn-persona, .btn-action {
+  background: transparent;
+  color: var(--phosphor-dim);
+  border: 1px solid transparent;
+  padding: 3px 8px;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.15s ease;
+}
+
+.btn-persona:hover, .btn-action:hover {
+  color: var(--phosphor-bright);
+  border-color: var(--phosphor-dim);
+}
+
+.btn-persona.active {
+  background-color: rgba(0, 255, 102, 0.15);
+  color: var(--phosphor-primary);
+  border-color: var(--phosphor-primary);
+  box-shadow: 0 0 6px var(--phosphor-glow);
+}
+
+.btn-action {
+  border: 1px solid var(--phosphor-dim);
+  color: var(--phosphor-dim);
+}
+
+.btn-action:hover {
+  background-color: rgba(255, 51, 68, 0.15);
+  color: var(--accent-crimson);
+  border-color: var(--accent-crimson);
+}
+
+/* --------------------------------------------------------------------------
+   Terminal Transcript Screen
+   -------------------------------------------------------------------------- */
+.terminal-screen {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  scroll-behavior: smooth;
+}
+
+.terminal-screen:focus-visible {
+  outline: 1px solid var(--phosphor-dim);
+}
+
+/* Scrollbar styling */
+.terminal-screen::-webkit-scrollbar {
+  width: 6px;
+}
+.terminal-screen::-webkit-scrollbar-track {
+  background: var(--bg-core);
+}
+.terminal-screen::-webkit-scrollbar-thumb {
+  background: var(--phosphor-dim);
+  border-radius: 3px;
+}
+
+/* Message items */
+.term-msg {
+  position: relative;
+  word-break: break-word;
+}
+
+.term-msg.user {
+  color: #88ffaa;
+  padding-left: 4px;
+  border-left: 2px solid var(--phosphor-dim);
+}
+
+.term-msg.ghost-reply {
+  color: var(--phosphor-primary);
+  padding: 10px 14px;
+  background: rgba(0, 255, 102, 0.03);
+  border: 1px solid rgba(0, 255, 102, 0.15);
+  border-radius: 4px;
+  box-shadow: 0 0 12px rgba(0, 255, 102, 0.04);
+}
+
+.term-msg.ghost-reply .meta-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--phosphor-dim);
+  margin-bottom: 6px;
+  border-bottom: 1px dashed rgba(0, 255, 102, 0.15);
+  padding-bottom: 4px;
+}
+
+.term-msg.system {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.term-msg.error {
+  color: var(--accent-crimson);
+  background: rgba(255, 51, 68, 0.08);
+  border: 1px solid var(--accent-crimson);
+  padding: 10px 14px;
+  border-radius: 4px;
+}
+
+/* Explanations Card */
+.explain-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.explain-section {
+  margin-top: 4px;
+}
+
+.explain-section h4 {
+  font-size: 0.85rem;
+  color: var(--phosphor-bright);
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.risk-alert {
+  background-color: rgba(255, 51, 68, 0.12);
+  border: 1px solid var(--accent-crimson);
+  color: #ff7788;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+.safe-alt {
+  background-color: rgba(0, 229, 255, 0.08);
+  border: 1px solid var(--accent-cyan);
+  color: var(--accent-cyan);
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin-top: 6px;
+}
+
+/* Story Card */
+.story-card {
+  border-left: 3px solid var(--accent-amber);
+  background: rgba(255, 170, 0, 0.04);
+  padding: 12px 16px;
+  border-radius: 0 4px 4px 0;
+}
+
+.story-card .story-title {
+  color: var(--accent-amber);
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.story-disclaimer {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 8px;
+  font-style: italic;
+  border-top: 1px solid rgba(255, 170, 0, 0.2);
+  padding-top: 4px;
+}
+
+/* Inspection Card */
+.inspect-tree {
+  font-size: 0.82rem;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 8px 12px;
+  border-radius: 3px;
+  border: 1px solid #1a331a;
+  max-height: 220px;
+  overflow-y: auto;
+  white-space: pre;
+  margin: 6px 0;
+}
+
+/* Boot Sequence Screen */
+.boot-banner {
+  white-space: pre;
+  font-size: 0.78rem;
+  color: var(--phosphor-bright);
+  text-shadow: 0 0 8px var(--phosphor-glow-strong);
+  margin-bottom: 8px;
+}
+
+/* --------------------------------------------------------------------------
+   Quick Command Suggestions Bar
+   -------------------------------------------------------------------------- */
+.quick-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 6px 0;
+  border-top: 1px solid #142414;
+}
+
+.quick-label {
+  font-size: 0.72rem;
+  color: var(--phosphor-dim);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.quick-chip {
+  background: #091209;
+  border: 1px solid #1a331a;
+  color: var(--phosphor-dim);
+  font-family: inherit;
+  font-size: 0.75rem;
+  padding: 3px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.quick-chip:hover {
+  background: rgba(0, 255, 102, 0.1);
+  color: var(--phosphor-primary);
+  border-color: var(--phosphor-dim);
+}
+
+/* --------------------------------------------------------------------------
+   Terminal Input Bar
+   -------------------------------------------------------------------------- */
+.terminal-input-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--bg-input);
+  border: 1px solid var(--phosphor-dim);
+  border-radius: 4px;
+  padding: 8px 12px;
+  box-shadow: 0 0 10px rgba(0, 255, 102, 0.05);
+}
+
+.terminal-input-bar:focus-within {
+  border-color: var(--phosphor-primary);
+  box-shadow: 0 0 14px var(--phosphor-glow);
+}
+
+.cli-prompt {
+  color: var(--phosphor-bright);
+  font-weight: 700;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.input-wrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+#cliInput {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--phosphor-bright);
+  font-family: inherit;
+  font-size: 0.95rem;
+  caret-color: var(--phosphor-primary);
+}
+
+#cliInput::placeholder {
+  color: var(--text-muted);
+}
+
+.btn-submit {
+  background: rgba(0, 255, 102, 0.1);
+  border: 1px solid var(--phosphor-dim);
+  color: var(--phosphor-primary);
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-submit:hover {
+  background: var(--phosphor-primary);
+  color: #000;
+  box-shadow: 0 0 10px var(--phosphor-primary);
+}
+
+/* --------------------------------------------------------------------------
+   Thinking / Loading Indicator
+   -------------------------------------------------------------------------- */
+.ghost-thinking {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--phosphor-dim);
+  font-style: italic;
+  font-size: 0.85rem;
+  animation: pulse-ghost 1.6s infinite ease-in-out;
+}
+
+@keyframes pulse-ghost {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1.0; }
+}
+
+/* --------------------------------------------------------------------------
+   Terminal Footer
+   -------------------------------------------------------------------------- */
+.terminal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 8px;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  border-top: 1px solid #142414;
+  margin-top: 6px;
+}
+
+.badge-safe {
+  color: var(--phosphor-bright);
+}
+
+.sep {
+  margin: 0 4px;
+}
+
+/* --------------------------------------------------------------------------
+   Reduced Motion & Accessibility Overrides
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+  .scanlines {
+    display: none;
+  }
+  .ghost-thinking {
+    opacity: 0.8;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Adaptations
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .terminal-container {
+    padding: 8px;
+  }
+  .header-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .sub-tag {
+    display: none;
+  }
+  .footer-right {
+    display: none;
+  }
+}
